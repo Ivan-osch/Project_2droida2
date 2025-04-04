@@ -30,9 +30,9 @@ class BasePage():
         elem2 = self.browser.find_element(*BasePageLocators.APPLE)
         elem2.click()
 
-
-
     def open(self):
         self.browser.get(self.url)
 
-
+    def go_to_cart_page(self):
+        button = self.browser.find_element(*BasePageLocators.BUTTON_CART)
+        button.click()
