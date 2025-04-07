@@ -18,6 +18,7 @@ def test_should_be_see_sort_in_products_page(browser):
     products_page.sort_by_decrease()
     products_page.should_be_sort_by_decrease()
 
+
 def test_can_add_product_to_basket(browser):
     link = "https://2droida.ru/"
     page = BasePage(browser, link)

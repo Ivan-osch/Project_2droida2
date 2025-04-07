@@ -5,7 +5,8 @@ class BasePageLocators:
     CATALOG = (By.CSS_SELECTOR, "#catalogDropdown button")
     SMARTFONY = (By.CSS_SELECTOR, '.btn-group-vertical a[href="/catalog/smartfony"]')
     APPLE = (By.CSS_SELECTOR, '.sub.pe-0 a[href="/catalog/smartfony/smartfony-apple"]')
-    BUTTON_CART = (By.CSS_SELECTOR, ".header-layout .btn-cart")
+    BUTTON_CART = (By.XPATH, "//div[@class='d-none d-lg-block']//a[@href='/cart']")
+
 
 class MainPageLocators:
     pass
@@ -19,6 +20,7 @@ class ProductsPageLocators:
     PRICE_PRODUCT_IN_PAGE = (By.CSS_SELECTOR, ".px-md-1 .product-price.font-adaptive .current-price span:nth-child(1)")
     BUTTON_ADD_TO_CART = (By.CSS_SELECTOR, ".px-md-1 button")
     PRODUCT_NAME = (By.CSS_SELECTOR, ".px-md-1 .product-name.font-adaptive a")
+
 
 class CartPageLocators:
     PRODUCT_NAME = (By.CSS_SELECTOR, "tr .product-name .product-name a")
