@@ -20,7 +20,7 @@ def test_should_be_see_sort_in_products_page(browser):
 
 
 def test_can_add_product_to_basket(browser):
-    link = "https://2droida.ru/"
+    link = "https://novosibirsk.2droida.ru/"
     page = BasePage(browser, link)
     page.open()
     page.open_catalog()
@@ -31,8 +31,6 @@ def test_can_add_product_to_basket(browser):
     products_page.should_be_product_in_cart()
     name_in_product_page = products_page.get_product_name()
     price_in_product_page = products_page.get_product_price()
-    print(name_in_product_page, price_in_product_page)
-    time.sleep(10)
     products_page.go_to_cart_page()
     cart_page = CartPage(browser, browser.current_url)
     cart_page.product_name_in_cart(name_in_product_page)
