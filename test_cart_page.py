@@ -19,7 +19,5 @@ def test_should_be_see_sort_in_products_page(browser):
     actions = ActionChains(browser)  # смещение курсора с иконки Корзина
     actions.move_by_offset(200, 200)  # смещение курсора с иконки Корзина
     actions.perform()  # смещение курсора с иконки Корзина
-    cart_page.up_quantity()
-    time.sleep(5)
-    cart_page.down_quantity()
-    time.sleep(5)
+    cart_page.should_be_up_quantity_and_correctly_product_total_price()
+    #cart_page.should_be_down_quantity()

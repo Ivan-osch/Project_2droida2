@@ -33,5 +33,5 @@ def test_can_add_product_to_basket(browser):
     price_in_product_page = products_page.get_product_price()
     products_page.go_to_cart_page()
     cart_page = CartPage(browser, browser.current_url)
-    cart_page.product_name_in_cart(name_in_product_page)
-    cart_page.product_price_in_cart(price_in_product_page)
+    cart_page.correctly_product_name_in_cart(name_in_product_page)
+    cart_page.correctly_product_price_in_cart(price_in_product_page)
