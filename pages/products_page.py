@@ -25,9 +25,10 @@ class ProductPage(BasePage):
             assert float(price.text) <= price_max, "Сортировка по убыванию некорректна"
             price_max = float(price.text)
 
-    def add_to_cart(self):
-        button = self.browser.find_element(*ProductsPageLocators.BUTTON_ADD_TO_CART)
-        button.click()
+    def add_to_cart(self, number):
+        buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
+        #buttons[number].location_once_scrolled_into_view()
+        buttons[number].click()
 
     def should_not_be_product_in_cart(self):
         button = self.browser.find_element(*ProductsPageLocators.BUTTON_ADD_TO_CART)
