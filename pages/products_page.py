@@ -1,6 +1,9 @@
+import time
+
 from .base_page import BasePage
 from .locators import ProductsPageLocators
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class ProductPage(BasePage):
     def sort_by_increase(self):
@@ -27,23 +30,25 @@ class ProductPage(BasePage):
 
     def add_to_cart(self, number):
         buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
-        #buttons[number].location_once_scrolled_into_view()
+        self.browser.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttons[number])
         buttons[number].click()
 
-    def should_not_be_product_in_cart(self):
-        button = self.browser.find_element(*ProductsPageLocators.BUTTON_ADD_TO_CART)
-        text_button = button.get_attribute("aria-label")
+    def should_not_be_product_in_cart(self, number):
+        buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
+        text_button = buttons[number].get_attribute("aria-label")
         assert text_button == "В корзину", "Некорректная надпись кнопки, перед добавлением в корзину"
 
-    def should_be_product_in_cart(self):
-        button = self.browser.find_element(*ProductsPageLocators.BUTTON_ADD_TO_CART)
-        text_button = button.get_attribute("aria-label")
+    def should_be_product_in_cart(self, number):
+        buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
+        text_button = buttons[number].get_attribute("aria-label")
         assert text_button == "В корзине", "Некорректная надпись кнопки, после добавления в корзину"
 
-    def get_product_name(self):
-        return self.browser.find_element(*ProductsPageLocators.PRODUCT_NAME).text
+    def get_product_name(self, number):
+        names = self.browser.find_elements(*ProductsPageLocators.PRODUCT_NAME)
+        return names[number].text
 
-    def get_product_price(self):
-        return self.browser.find_element(*ProductsPageLocators.PRICE_PRODUCT_IN_PAGE).text
+    def get_product_price(self, number):
+        prices = self.browser.find_elements(*ProductsPageLocators.PRICE_PRODUCT_IN_PAGE)
+        return prices[number].text
 
 

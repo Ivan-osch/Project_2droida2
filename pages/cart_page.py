@@ -4,7 +4,19 @@ from .base_page import BasePage
 from .locators import CartPageLocators
 
 
-class CartPage(BasePage):
+class CartPageElement(BasePage):
+    def click_up_quantity(self):
+        button = self.browser.find_element(*CartPageLocators.BUTTON_UP)
+        button.click()
+
+    def click_down_quantity(self):
+        button = self.browser.find_element(*CartPageLocators.BUTTON_DOWN)
+        button.click()
+
+    def click_delete(self):
+        button = self.browser.find_element(*CartPageLocators.BUTTON_DELETE)
+        button.click()
+
     def get_product_name_in_cart(self):
         return self.browser.find_element(*CartPageLocators.PRODUCT_NAME).text
 
@@ -17,17 +29,16 @@ class CartPage(BasePage):
     def get_product_total_price(self):
         return self.browser.find_element(*CartPageLocators.PRODUCT_TOTAL_PRICE).text
 
+    def get_products_total_price(self):
+        products_total_price = self.browser.find_elements(*CartPageLocators.PRODUCT_TOTAL_PRICE)
+        for product_total_price in products_total_price:
+            yield product_total_price.text
+
     def get_total_price(self):
         return self.browser.find_element(*CartPageLocators.TOTAL_PRICE).text
 
-    def up_quantity(self):
-        button = self.browser.find_element(*CartPageLocators.BUTTON_UP)
-        button.click()
 
-    def down_quantity(self):
-        button = self.browser.find_element(*CartPageLocators.BUTTON_DOWN)
-        button.click()
-
+class CartPage(CartPageElement):
     def correctly_product_name_in_cart(self, name_in_product_page):
         name_in_cart_page = self.get_product_name_in_cart()
         assert name_in_product_page == name_in_cart_page, "Имя товара в корзине не соответствует"
@@ -43,7 +54,7 @@ class CartPage(BasePage):
         assert product_total_price == round(quantity_before * product_price, 3), 'Общая цена товара не соответсвует, до увеличения количества'
         i = 0
         while i < 5:
-            self.up_quantity()
+            self.click_up_quantity()
             quantity_after = int(self.get_product_quantity())
             product_total_price = float(self.get_product_total_price())
             assert quantity_after - quantity_before == 1, 'Количество товара не увеличилось'
@@ -58,10 +69,20 @@ class CartPage(BasePage):
         assert product_total_price == round(quantity_before * product_price, 3), 'Общая цена товара не соответсвует, до уменьшения количества'
         i = 0
         while i < 5 and quantity_before > 1:
-            self.down_quantity()
+            self.click_down_quantity()
             quantity_after = int(self.get_product_quantity())
             product_total_price = float(self.get_product_total_price())
             assert quantity_before - quantity_after == 1, 'Количество товара не увеличилось'
             assert product_total_price == round(quantity_after * product_price, 3), 'Общая цена товара не соответсвует, после увеличения количества'
             quantity_before = quantity_after
             i += 1
+
+    def should_be_correctly_total_price(self):
+        products_total_price = self.get_products_total_price()
+        summ_product_total_price = 0
+        for product_total_price in products_total_price:
+            summ_product_total_price += float(product_total_price)
+        total_price = float(self.get_total_price())
+        print(total_price, summ_product_total_price)
+        assert total_price == round(summ_product_total_price, 3), 'Общая цена корзины не соотвутствует цене всех товаров в ней'
+

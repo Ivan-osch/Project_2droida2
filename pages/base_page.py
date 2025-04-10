@@ -8,14 +8,23 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from .locators import BasePageLocators
 
-import math
 
-
-class BasePage():
+class BasePage:
     def __init__(self, browser, url, timeout=3):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
+
+    def button_click_to_be_clickable_and_visibility(self, how, what, timeout = 5):
+        button = WebDriverWait(self.browser, timeout).until(
+            lambda d: EC.visibility_of_element_located((how, what))(d) and
+                      EC.element_to_be_clickable((how, what))(d)
+        )
+        button.click()
+
+    def button_click_to_be_visibility(self, how, what, timeout = 5):
+        button = WebDriverWait(self.browser, timeout).until(EC.visibility_of_element_located((how, what)))
+        button.click()
 
     def open_catalog(self):
         catalog = self.browser.find_element(*BasePageLocators.CATALOG)
@@ -34,5 +43,4 @@ class BasePage():
         self.browser.get(self.url)
 
     def go_to_cart_page(self):
-        button = self.browser.find_element(*BasePageLocators.BUTTON_CART)
-        button.click()
+        self.button_click_to_be_visibility(*BasePageLocators.BUTTON_CART)
