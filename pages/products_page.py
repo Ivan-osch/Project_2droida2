@@ -5,16 +5,33 @@ from .locators import ProductsPageLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class ProductPage(BasePage):
-    def sort_by_increase(self):
-        self.browser.find_element(*ProductsPageLocators.SORT_BY_PRODUCT).click()
-        self.browser.find_element(*ProductsPageLocators.SORT_BY_INCREASE).click()
+class ProductPageElement(BasePage):
+    def click_sort(self):
+        button = self.browser.find_element(*ProductsPageLocators.SORT_BY_PRODUCT)
+        self.button_click(button)
 
-    def sort_by_decrease(self):
-        self.browser.find_element(*ProductsPageLocators.SORT_BY_PRODUCT).click()
-        self.browser.find_element(*ProductsPageLocators.SORT_BY_DECREASE).click()
+    def click_sort_by_increase(self):
+        button = self.browser.find_element(*ProductsPageLocators.SORT_BY_INCREASE)
+        self.button_click(button)
 
+    def click_sort_by_decrease(self):
+        button = self.browser.find_element(*ProductsPageLocators.SORT_BY_DECREASE)
+        self.button_click(button)
+
+    def click_add_to_cart(self, number):
+        buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
+        self.button_click(buttons[number])
+
+    def get_button_text(self):
+
+    def get_price_product_in_page(self, number):
+        prices = self.browser.find_elements(*ProductsPageLocators.PRICE_PRODUCT_IN_PAGE)
+        return
+
+class ProductPage(ProductPageElement):
     def should_be_sort_by_increase(self):
+        self.click_sort()
+        self.click_sort_by_increase()
         prices = self.browser.find_elements(*ProductsPageLocators.PRICE_PRODUCT_IN_PAGE)
         price_min = float(prices[0].text)
         for price in prices:
@@ -22,16 +39,13 @@ class ProductPage(BasePage):
             price_min = float(price.text)
 
     def should_be_sort_by_decrease(self):
+        self.click_sort()
+        self.click_sort_by_decrease()
         prices = self.browser.find_elements(*ProductsPageLocators.PRICE_PRODUCT_IN_PAGE)
         price_max = float(prices[0].text)
         for price in prices:
             assert float(price.text) <= price_max, "Сортировка по убыванию некорректна"
             price_max = float(price.text)
-
-    def add_to_cart(self, number):
-        buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)
-        self.browser.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", buttons[number])
-        buttons[number].click()
 
     def should_not_be_product_in_cart(self, number):
         buttons = self.browser.find_elements(*ProductsPageLocators.BUTTON_ADD_TO_CART)

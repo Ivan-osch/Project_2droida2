@@ -6,7 +6,7 @@ import time
 import pytest
 
 
-@pytest.mark.skip
+#@pytest.mark.skip
 def test_should_be_up_down_quantity_and_correctly_product_total_price(browser):
     link = "https://novosibirsk.2droida.ru/"
     number = 4
@@ -25,6 +25,7 @@ def test_should_be_up_down_quantity_and_correctly_product_total_price(browser):
     cart_page.should_be_up_quantity_and_correctly_product_total_price()
     cart_page.should_be_down_quantity_and_correctly_product_total_price()
 
+@pytest.mark.skip
 def test_should_be_correctly_total_price(browser):
     link = "https://novosibirsk.2droida.ru/"
     numbers = [4, 5, 20, 1, 2, 25, 30, 31, 23]

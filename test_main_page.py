@@ -13,9 +13,7 @@ def test_should_be_see_sort_in_products_page(browser):
     page.open_catalog()
     page.go_to_products_page()
     products_page = ProductPage(browser, browser.current_url)
-    products_page.sort_by_increase()
     products_page.should_be_sort_by_increase()
-    products_page.sort_by_decrease()
     products_page.should_be_sort_by_decrease()
 
 
@@ -28,7 +26,7 @@ def test_can_add_product_to_basket(browser):
     page.go_to_products_page()
     products_page = ProductPage(browser, browser.current_url)
     products_page.should_not_be_product_in_cart(number)
-    products_page.add_to_cart(number)
+    products_page.click_add_to_cart(number)
     products_page.should_be_product_in_cart(number)
     name_in_product_page = products_page.get_product_name(number)
     price_in_product_page = products_page.get_product_price(number)

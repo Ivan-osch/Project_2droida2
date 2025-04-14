@@ -26,6 +26,13 @@ class BasePage:
         button = WebDriverWait(self.browser, timeout).until(EC.visibility_of_element_located((how, what)))
         button.click()
 
+    def button_click(self, element, timeout = 3):
+        self.browser.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+        button = WebDriverWait(self.browser, timeout).until(
+            EC.element_to_be_clickable(element)
+        )
+        button.click()
+
     def open_catalog(self):
         catalog = self.browser.find_element(*BasePageLocators.CATALOG)
         catalog.click()

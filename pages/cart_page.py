@@ -7,15 +7,15 @@ from .locators import CartPageLocators
 class CartPageElement(BasePage):
     def click_up_quantity(self):
         button = self.browser.find_element(*CartPageLocators.BUTTON_UP)
-        button.click()
+        self.button_click(button)
 
     def click_down_quantity(self):
         button = self.browser.find_element(*CartPageLocators.BUTTON_DOWN)
-        button.click()
+        self.button_click(button)
 
     def click_delete(self):
         button = self.browser.find_element(*CartPageLocators.BUTTON_DELETE)
-        button.click()
+        self.button_click(button)
 
     def get_product_name_in_cart(self):
         return self.browser.find_element(*CartPageLocators.PRODUCT_NAME).text
@@ -85,4 +85,3 @@ class CartPage(CartPageElement):
         total_price = float(self.get_total_price())
         print(total_price, summ_product_total_price)
         assert total_price == round(summ_product_total_price, 3), 'Общая цена корзины не соотвутствует цене всех товаров в ней'
-
