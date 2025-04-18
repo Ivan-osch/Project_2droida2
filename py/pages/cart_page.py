@@ -1,6 +1,6 @@
 import time
 
-from .base_page import BaseView, BaseElement
+
 from .locators import CartPageLocators
 
 
